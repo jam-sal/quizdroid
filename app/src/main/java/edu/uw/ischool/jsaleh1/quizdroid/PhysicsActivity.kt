@@ -16,11 +16,11 @@ class PhysicsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_physics)
 
         val overviewFragment = OverviewFragment()
-        val bundle = Bundle()
-        bundle.putString("desc", description)
-        bundle.putInt("numOfQ", 4)
-        bundle.putParcelableArrayList("questions", questions)
-        overviewFragment.arguments = bundle
+//        val bundle = Bundle()
+//        bundle.putString("desc", description)
+//        bundle.putInt("numOfQ", 4)
+//        bundle.putParcelableArrayList("questions", questions)
+//        overviewFragment.arguments = bundle
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragment, overviewFragment)
             commit()

@@ -17,11 +17,13 @@ import android.widget.TextView
  */
 class ResultFragment : Fragment() {
     lateinit var data : Bundle
+    lateinit var quizApp:QuizApp
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        quizApp = (activity?.application as QuizApp)
         data = requireArguments()
         return inflater.inflate(R.layout.fragment_result, container, false)
     }
@@ -29,7 +31,8 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val questions = data.getParcelableArrayList<Question>("questions") as ArrayList<Question>
+        val topic = quizApp.getTopicRepository().getTopic(quizApp.selectedTopic)
+        val questions = topic.questions
         val currentQNum = data.getInt("currentQNum")
         val currentQ = questions[currentQNum-1]
         val correctAnswer = currentQ.answers?.get(currentQ.correct)

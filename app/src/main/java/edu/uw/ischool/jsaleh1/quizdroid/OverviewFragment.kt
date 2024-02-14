@@ -14,23 +14,27 @@ import android.widget.TextView
  * create an instance of this fragment.
  */
 class OverviewFragment : Fragment() {
-    var data : Bundle? = null
+    lateinit var quizApp: QuizApp
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        data = arguments
+        quizApp = (activity?.application as QuizApp)
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val fullDesc = data?.getString("desc") + "There are ${data?.getInt("numOfQ")} questions."
+        val topic = quizApp.getTopicRepository().getTopic(quizApp.selectedTopic)
+        val fullDesc = topic.longDesc + "\nThere are ${topic.questions.size} questions."
         view.findViewById<TextView>(R.id.desc).setText(fullDesc)
         var questionFragment = QuestionFragment()
-        questionFragment.arguments = data
+//        questionFragment.arguments = data
+        val bundle = Bundle()
+        bundle.putInt("numCorrect", 0)
+        bundle.putInt("currentQNum", 0)
+        questionFragment.arguments = bundle
         view.findViewById<Button>(R.id.start).setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.flFragment, questionFragment)

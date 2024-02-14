@@ -19,19 +19,21 @@ import androidx.core.view.isVisible
  */
 class QuestionFragment : Fragment() {
     lateinit var data : Bundle
+    lateinit var quizApp:QuizApp
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         data = requireArguments()
+        quizApp = (activity?.application as QuizApp)
         return inflater.inflate(R.layout.fragment_question, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val questions = data.getParcelableArrayList<Question>("questions") as ArrayList<Question>
+        val topic = quizApp.getTopicRepository().getTopic(quizApp.selectedTopic)
+        val questions = topic.questions
         val currentQ = data.getInt("currentQNum")
 
         val q  : Question = questions[currentQ]
@@ -69,7 +71,6 @@ class QuestionFragment : Fragment() {
             } else {
                 bundle.putInt("numCorrect", correct)
             }
-            bundle.putParcelableArrayList("questions", questions)
             resultFragment.arguments = bundle
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 replace(R.id.flFragment, resultFragment)
