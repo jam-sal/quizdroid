@@ -14,7 +14,7 @@ import android.widget.TextView
  * create an instance of this fragment.
  */
 class OverviewFragment : Fragment() {
-    lateinit var quizApp: QuizApp
+    lateinit var quizApp : QuizApp
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,7 +29,7 @@ class OverviewFragment : Fragment() {
         val topic = quizApp.getTopicRepository().getTopic(quizApp.selectedTopic)
         val fullDesc = topic.longDesc + "\nThere are ${topic.questions.size} questions."
         view.findViewById<TextView>(R.id.desc).setText(fullDesc)
-        var questionFragment = QuestionFragment()
+        val questionFragment = QuestionFragment()
 //        questionFragment.arguments = data
         val bundle = Bundle()
         bundle.putInt("numCorrect", 0)

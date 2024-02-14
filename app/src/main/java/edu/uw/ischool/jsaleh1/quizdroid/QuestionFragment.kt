@@ -19,7 +19,7 @@ import androidx.core.view.isVisible
  */
 class QuestionFragment : Fragment() {
     lateinit var data : Bundle
-    lateinit var quizApp:QuizApp
+    lateinit var quizApp : QuizApp
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,7 +55,7 @@ class QuestionFragment : Fragment() {
         var selectedAnswer : Int? = -1
         val submitBtn = view.findViewById<Button>(R.id.submit)
         radioGroup.setOnCheckedChangeListener {group, selectedId ->
-            var selected  = view.findViewById<RadioButton>(selectedId)
+            val selected  = view.findViewById<RadioButton>(selectedId)
             selectedAnswer = q.answers?.indexOf(selected.text)
             submitBtn.isVisible = true
         }
@@ -65,7 +65,7 @@ class QuestionFragment : Fragment() {
             val bundle = Bundle()
             bundle.putInt("currentQNum", currentQ + 1)
             selectedAnswer?.let { it1 -> bundle.putInt("selectedAnswer", it1) }
-            var correct = data.getInt("numCorrect")
+            val correct = data.getInt("numCorrect")
             if(selectedAnswer == q.correct) {
                 bundle.putInt("numCorrect", correct + 1)
             } else {

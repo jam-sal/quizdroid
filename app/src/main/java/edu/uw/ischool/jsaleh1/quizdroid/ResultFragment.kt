@@ -17,7 +17,7 @@ import android.widget.TextView
  */
 class ResultFragment : Fragment() {
     lateinit var data : Bundle
-    lateinit var quizApp:QuizApp
+    lateinit var quizApp : QuizApp
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
