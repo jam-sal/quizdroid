@@ -18,32 +18,64 @@ import androidx.core.view.isVisible
  * create an instance of this fragment.
  */
 class QuestionFragment : Fragment() {
-    var data : Bundle? = null
-    var qNum: Int = 1
-    var correct:Int = 0
-    var answerId: Int = 0
+    lateinit var data : Bundle
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        data = arguments
+        data = requireArguments()
         return inflater.inflate(R.layout.fragment_question, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val questions = data?.getSerializable("questions") as ArrayList<*>
-        val question = questions[0]()
-        view.findViewById<TextView>(R.id.qNumber).setText("Question ${qNum}")
-//        view.findViewById<TextView>(R.id.question).setText(questions[qNum - 1].question)
+        val questions = data.getParcelableArrayList<Question>("questions") as ArrayList<Question>
+        val currentQ = data.getInt("currentQNum")
+
+        val q  : Question = questions[currentQ]
+        Log.i("Question", "${q.question}")
+        view.findViewById<TextView>(R.id.qNumber).setText("Question ${currentQ + 1}")
+        view.findViewById<TextView>(R.id.question).setText(q.question)
+
         val radioGroup = view.findViewById<RadioGroup>(R.id.answers)
-        val submitBtm = view.findViewById<Button>(R.id.submit)
+        val answer1 = view.findViewById<RadioButton>(R.id.radioButton1)
+        val answer2 = view.findViewById<RadioButton>(R.id.radioButton2)
+        val answer3 = view.findViewById<RadioButton>(R.id.radioButton3)
+        val answer4 = view.findViewById<RadioButton>(R.id.radioButton4)
+
+        answer1.text = q.answers?.get(0)
+        answer2.text = q.answers?.get(1)
+        answer3.text = q.answers?.get(2)
+        answer4.text = q.answers?.get(3)
+
+        var selectedAnswer : Int? = -1
+        val submitBtn = view.findViewById<Button>(R.id.submit)
         radioGroup.setOnCheckedChangeListener {group, selectedId ->
             var selected  = view.findViewById<RadioButton>(selectedId)
-            answerId = selectedId
-            submitBtm.isVisible = true
+            selectedAnswer = q.answers?.indexOf(selected.text)
+            submitBtn.isVisible = true
         }
+
+        submitBtn.setOnClickListener{
+            val resultFragment = ResultFragment()
+            val bundle = Bundle()
+            bundle.putInt("currentQNum", currentQ + 1)
+            selectedAnswer?.let { it1 -> bundle.putInt("selectedAnswer", it1) }
+            var correct = data.getInt("numCorrect")
+            if(selectedAnswer == q.correct) {
+                bundle.putInt("numCorrect", correct + 1)
+            } else {
+                bundle.putInt("numCorrect", correct)
+            }
+            bundle.putParcelableArrayList("questions", questions)
+            resultFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                replace(R.id.flFragment, resultFragment)
+                commit()
+            }
+        }
+
     }
 }

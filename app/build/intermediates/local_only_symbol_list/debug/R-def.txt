@@ -8,7 +8,6 @@ id answers
 id correct
 id desc
 id flFragment
-id incorrect
 id listView
 id marvelTitle
 id mathTitle
@@ -17,10 +16,11 @@ id numCorrect
 id physicsTitle
 id qNumber
 id question
-id radioButton
+id radioButton1
 id radioButton2
 id radioButton3
 id radioButton4
+id selected
 id start
 id submit
 id welcome

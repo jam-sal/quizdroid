@@ -21,6 +21,7 @@
         android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/answers"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioButton1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="RadioButton" />
