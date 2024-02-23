@@ -18,24 +18,16 @@ class MainActivity : AppCompatActivity() {
         val topicRepository = (application as QuizApp).getTopicRepository()
         val topics = topicRepository.getAll()
 
-        val adapter: ArrayAdapter<*> = object : ArrayAdapter<Any?>(
-            this,
-            android.R.layout.simple_list_item_2,
-            android.R.id.text1,
-            topics
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val text1 = view.findViewById<View>(android.R.id.text1) as TextView
-                val text2 = view.findViewById<View>(android.R.id.text2) as TextView
-                text1.setText(topics[position].title)
-                text2.setText(topics[position].shortDesc)
-                return view
-            }
-        }
+//        val adapter: ArrayAdapter<*> = object : ArrayAdapter<Any?>(
+//            this,
+//            android.R.layout.simple_list_item_1,
+//            android.R.id.text1,
+//            topics
+//        ) {
+//        }
 
         val listView = findViewById<ListView>(R.id.listView)
-//        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, topicsWithDescriptions)
+        val adapter = ArrayAdapter<Any?>(this, android.R.layout.simple_list_item_1, android.R.id.text1, topics)
         listView.adapter = adapter
 
         listView.setOnItemClickListener { parent, view, position, id ->
